@@ -74,6 +74,12 @@ namespace Middleware
 
             });
 
+            //this Middleware will be not called because the final middleware is added at the end of the pipeline[app.Run()]
+            app.Use(async (HttpContext context, RequestDelegate next) =>
+            {
+                await context.Response.WriteAsync("Hello from Middleware 4\n");
+                await next(context);
+            });
 
             #endregion
 
