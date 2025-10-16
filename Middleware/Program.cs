@@ -68,20 +68,75 @@ namespace Middleware
             //Adds a terminal middleware delegate to the application's request pipeline.
             //this Middleware will be the last one in the pipeline
             //This dont Call the next middleware
-            app.Run(async (HttpContext context) =>
-            {
-                await context.Response.WriteAsync("final middleware ");
+            //app.Run(async (HttpContext context) =>
+            //{
+            //    await context.Response.WriteAsync("final middleware ");
 
-            });
+            //});
 
-            //this Middleware will be not called because the final middleware is added at the end of the pipeline[app.Run()]
-            app.Use(async (HttpContext context, RequestDelegate next) =>
-            {
-                await context.Response.WriteAsync("Hello from Middleware 4\n");
-                await next(context);
-            });
+            ////this Middleware will be not called because the final middleware is added at the end of the pipeline[app.Run()]
+            //app.Use(async (HttpContext context, RequestDelegate next) =>
+            //{
+            //    await context.Response.WriteAsync("Hello from Middleware 4\n");
+            //    await next(context);
+            //});
 
             #endregion
+
+
+            #region Never Call next() After Response
+
+
+            //Case 01: Never Call next() After Response Has Started
+            //app.Use(async (context, next) =>
+            //{
+            //    //is the response has not started yet you can set the status code and headers
+            //    //context.Response.StatusCode=StatusCodes.Status200OK;
+            //    //context.Response.Headers.Append("h1", "test");
+            //    await context.Response.WriteAsync("the response has strated \n"); //responce has started
+            //    //but if the response has started you cant set the status code and headers
+            //    //context.Response.StatusCode = StatusCodes.Status200OK;
+            //    //Expection will be thrown [StatusCode cannot be set because the response has already started]
+            //    await next();
+
+            //});
+
+            //Case 02
+            //app.Use(async (context, next) =>
+            //{
+            //    //the response has started here
+            //    await context.Response.WriteAsync("the response has strated \n"); 
+            //    await next();
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    //this will throw an exception because the response has already started [above]
+            //    //StatusCode cannot be set because the response has already started.
+            //    context.Response.StatusCode = StatusCodes.Status200OK;
+            //    await next();
+
+            //});
+
+            //Case 03: Solution
+            //app.Use(async (context, next) =>
+            //{
+            //    //the response has started here
+            //    await context.Response.WriteAsync("the response has strated \n");
+            //    await next();
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    //Solution: check if the response has started
+            //    if (!context.Response.HasStarted)
+            //    {
+            //        context.Response.StatusCode = StatusCodes.Status200OK;
+            //    }
+            //    await next();
+            //});
+            #endregion
+
 
 
             app.Run();
