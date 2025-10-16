@@ -138,6 +138,44 @@ namespace Middleware
             #endregion
 
 
+            #region Before & After Middleware
+
+            //Before & After Middleware
+            //When I call next() the control is passed to the next middleware in the pipeline
+            //If there is code after next() it will be executed after the next middleware has completed
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("MW 01 Before\n"); //will be executed first
+            //    await next(); //call the next middleware
+            //    await context.Response.WriteAsync("MW 01 After\n"); //will be executed last
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("         MW 02 Before\n"); //will be executed second
+            //    await next(); //call the next middleware
+            //    await context.Response.WriteAsync("         MW 02 After\n");//will be executed fifth
+            //});
+
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("             MW 03 Before\n"); //will be executed third
+            //    await next(); //call the next middleware
+            //    await context.Response.WriteAsync("             MW 03 After\n"); //will be executed fourth
+            //});
+
+            ///**
+            // *  MW 01 Before
+            //            MW 02 Before
+            //                MW 03 Before
+            //                MW 03 After
+            //            MW 02 After
+            //    MW 01 After
+            // */
+
+            #endregion
 
             app.Run();
         }
