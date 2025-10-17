@@ -177,6 +177,31 @@ namespace Middleware
 
             #endregion
 
+            #region  Middleware OrderingMyRegion
+
+            ////Middleware Ordering : Order of middleware is important
+
+            ////Built-in Middleware
+            //app.UseExceptionHandler(); //For handling exceptions
+            //app.UseHsts(); //For security for HTTPS
+            //app.UseHttpsRedirection(); //Redirect HTTP to HTTPS
+            //app.UseStaticFiles(); //For serving static files
+            //app.UseRouting(); //For routing to choose endpoint
+            //app.UseCors(); //For Cross-Origin Resource Sharing
+            //app.UseAuthentication(); //For Authentication
+            //app.UseAuthorization(); //For Authorization
+
+
+            ////Custom Middleware
+            //app.Use(async (context, next) => {await next();});
+
+            ////Endpoint Middleware
+            //app.MapGet("/", () => "Hlloe");
+
+            #endregion
+
+        
+
             app.Run();
         }
     }
