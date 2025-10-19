@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Middleware.Classes;
 
 namespace Middleware
 {
@@ -200,7 +201,66 @@ namespace Middleware
 
             #endregion
 
-        
+
+            #region Middleware Branching
+
+
+            //app.Map("/branch1", Branch1.GetBranch1);
+
+
+            //app.Map("/branch2", Branch2.GetBranch2);
+
+            #endregion
+
+            #region Middleware Branching
+
+
+            #region app.UseWhen()
+            //app.UseWhen() => Create Branching Middleware Based on Condition 
+            //if the request path is /branch1 then the branch middleware will be executed
+            //and it will write "You are in Branch 1" to the response
+            //and then it will call the next middleware in the main pipeline => terminal middleware [important]
+
+            //app.UseWhen(
+            //    context => context.Request.Path.Equals("/branch1", StringComparison.OrdinalIgnoreCase),
+            //    b =>
+            //    {
+            //        b.Use(async (context, next) =>
+
+            //        {
+            //            await context.Response.WriteAsync("You are in Branch 1");
+            //            await next(context); //call the next middleware in the main pipeline
+            //        });
+            //    });
+
+            //app.Run(context => context.Response.WriteAsync("tirminal Middleware"));
+
+            #endregion
+
+            #region app.MapWhen()
+            //app.MapWhen() => Create Branching Middleware Based on Condition
+            //if the request path is /branch1 then the branch middleware will be executed
+            //and it will write "You are in Branch 1" to the response
+            //MapWhen Dont call the next Middleware 
+
+            //app.MapWhen(
+            //    context => context.Request.Path.Equals("/branch1", StringComparison.OrdinalIgnoreCase),
+            //    b =>
+            //    {
+            //        b.Run(async (context) =>
+
+            //        {
+            //            await context.Response.WriteAsync("You are in Branch 1");
+            //            //await next(context); //dont call the next middleware in the main pipeline
+            //            //its like tirminal middleware
+            //        });
+            //    });
+
+            //app.Run(context => context.Response.WriteAsync("tirminal Middleware"));
+
+            #endregion
+
+            #endregion
 
             app.Run();
         }
