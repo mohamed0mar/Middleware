@@ -15,6 +15,51 @@ namespace Middleware
 
             var app = builder.Build();
 
+            #region test
+
+            //app.Use(async (context, next) =>
+            //{
+            //    //StatusCode | Headers cannot be set because the response has already started.'
+            //    await context.Response.WriteAsync("Hello from Middleware Test\n");
+            //    context.Response.StatusCode=StatusCodes.Status200OK;
+            //    context.Response.Headers.Append("h1", "test");
+            //    await next();
+            //});
+            //Avoid call next after send responce
+            //app.Use(async (context, next) =>
+            //{
+            //    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            //    context.Response.Headers.Append("h1", "test");
+            //    await context.Response.WriteAsync("Hello from Middleware Test\n");
+            //    await next();
+            //});
+
+            //app.MapGet("/test", async ( HttpContext context) =>
+            //{
+            //    if (!context.Response.HasStarted)
+            //    {
+            //        var data = new
+            //        {
+            //            SC = context.Response.StatusCode,
+            //            H = context.Response.Headers
+            //        };
+
+            //        await context.Response.WriteAsJsonAsync(data);
+            //    }
+
+            //    else
+            //    {
+            //        await context.Response.WriteAsync("\nThe Response Has Been Started :");
+            //    }
+            //});
+
+            //app.Use(Func<HttpContext,Func<Tasl>,Task>)
+            //app.Use(Func<HttpContext,RequestDelegate,Task>)
+
+            #endregion
+
+
+
             #region Pipeline && Middleware 
             ////Pipeline And Middleware
             /////Pipeline is a sequence of Middleware that process HTTP requests and responses [RequestDelegate]
@@ -81,6 +126,7 @@ namespace Middleware
             //    await context.Response.WriteAsync("Hello from Middleware 4\n");
             //    await next(context);
             //});
+
 
             #endregion
 
@@ -261,6 +307,84 @@ namespace Middleware
             #endregion
 
             #endregion
+
+
+
+
+            #region Branching Using Map
+
+
+
+            //app.Map("/admin", app =>
+            //{
+            //    app.Use(async (context, next) =>
+            //    {
+            //        await context.Response.WriteAsync("Admin middleware start\n");
+            //        await next();
+            //        await context.Response.WriteAsync("Admin middleware end\n");
+            //    });
+
+            //    app.Run(async context =>
+            //    {
+            //        await context.Response.WriteAsync("Welcome to Admin area!\n");
+            //    });
+            //});
+
+            //app.Map("/user", app =>
+            //{
+            //    app.Run(async context =>
+            //    {
+            //        await context.Response.WriteAsync("Welcome to User area!");
+            //    });
+            //});
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Default path (no branch matched)");
+            //}); 
+            #endregion
+
+
+            #region Branching Using MapWhen
+
+            //app.MapWhen(context => context.Request.Query.ContainsKey("isAdmin"), app =>
+            //{
+            //    app.Run(async context =>
+            //    {
+            //        await context.Response.WriteAsync("Admin branch triggered (has isAdmin query)!");
+            //    });
+            //});
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Normal user branch");
+            //});
+
+
+
+            #endregion
+
+
+            #region Branching Using UseWhen
+
+            //app.UseWhen(context => context.Request.Query.ContainsKey("isAdmin"), app =>
+            //{
+            //    app.Use(async (context,next) =>
+            //    {
+            //        await context.Response.WriteAsync("Admin branch triggered (has isAdmin query)!");
+            //        await next();
+            //    });
+            //});
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Normal user branch");
+            //});
+
+
+
+            #endregion
+
 
             app.Run();
         }
